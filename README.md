@@ -2,4 +2,4 @@ proyecto API Backend para un ecommerce en node js y postgres mbientado con docke
 
 aplicacion que controla accesos de usuario via jwt passport
 
-
+Passport para login con otra aplicaciones  https://www.passportjs.org/
