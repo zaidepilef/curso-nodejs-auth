@@ -1,6 +1,31 @@
 version: '3.3'
 
 services:
+  mysql:
+    image: mysql:5
+    container_name: local_mysqldb
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin2023
+      - MYSQL_DATABASE=my_store
+      - MYSQL_USER=feldi
+      - MYSQL_PORT=3306
+    ports:
+      - 3306:3306
+    volumes:
+      - local_mysqldata:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_container
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin123
+      - PMA_HOST=mysql
+    ports:
+      - 8080:80
+    depends_on:
+      - mysql
+
   postgres:
     image: postgres:13
     container_name: local_pgdb
@@ -24,7 +49,7 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=root
     ports:
       - 5050:80
-   
+
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     depends_on:
@@ -33,5 +58,8 @@ services:
 volumes:
   local_pgdata:
   pgadmin-data:
+
+  local_mysqldata:
+  phpmyadmin-data:
 
 
