@@ -5,32 +5,26 @@ const bcrypt = require('bcrypt');
 const UserService = require('./../../../services/user.service');
 const service = new UserService();
 
-const localStrategy = new Strategy({
-    usernameField: 'email'
-}, async (email, password, done) => {
-    console.log('email : ', email)
+const LocalStrategy = new Strategy({
+    usernameField: 'email',
+    passwordField: 'password'
+  },
+  async (email, password, done) => {
     try {
-        const user = service.findByEmail(email).then((user) => {
-            console.log('user.email : ', user.email)
-            console.log('user.name : ', user.name)
-            if (!user) {
-                done(boom.unauthorized(), false)
-            }
-            const isMatch = bcrypt.compareSync(password, user.password)
-            console.log('isMatch : ', isMatch)
-
-            if (!isMatch) {
-                done(boom.unauthorized(), false);
-            }
-            done(null, user)
-
-        });
-
-        console.log('user : ', user)
-
+      const user = await service.findByEmail(email);
+      if (!user) {
+        done(boom.unauthorized(), false);
+      }
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        done(boom.unauthorized(), false);
+      }
+      delete user.dataValues.password;
+      done(null, user);
     } catch (error) {
-        done(error, false)
+      done(error, false);
     }
-})
+  }
+);
 
-module.exports = localStrategy;
+module.exports = LocalStrategy;
