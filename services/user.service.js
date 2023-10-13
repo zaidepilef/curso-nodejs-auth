@@ -8,8 +8,6 @@ class UserService {
   async create(data) {
     const hash = await bcrypt.hash(data.password, 10);
     //const newUser = await models.User.create(data);
-
-
     const newUser = await models.User.create({
       ...data,
       password: hash

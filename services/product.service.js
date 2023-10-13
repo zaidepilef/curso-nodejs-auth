@@ -6,12 +6,19 @@ const { models } = require('../libs/sequelize');
 
 class ProductsService {
 
-  constructor(){
+  constructor() {
     this.products = [];
     this.generate();
   }
 
-  generate() {
+  /**
+   * 
+   * @param {*} a 
+   * @param {*} d 
+   * @param {*} f 
+   * @param {*} r 
+   */
+  generate(a,d,f,r) {
     const limit = 100;
     for (let index = 0; index < limit; index++) {
       this.products.push({
@@ -24,11 +31,21 @@ class ProductsService {
     }
   }
 
+  /**
+   * 
+   * @param {*} data 
+   * @returns new product
+   */
   async create(data) {
     const newProduct = await models.Product.create(data);
     return newProduct;
   }
 
+  /**
+   * 
+   * @param {*} query 
+   * @returns 
+   */
   async find(query) {
     const options = {
       include: ['category'],
@@ -36,8 +53,8 @@ class ProductsService {
     }
     const { limit, offset } = query;
     if (limit && offset) {
-      options.limit =  limit;
-      options.offset =  offset;
+      options.limit = limit;
+      options.offset = offset;
     }
 
     const { price } = query;

@@ -13,6 +13,14 @@ const price_max = Joi.number().integer();
 const limit = Joi.number().integer();
 const offset = Joi.number().integer();
 
+/**
+ * esquema de modelo para producto
+ * @param name
+ * @param price
+ * @param description
+ * @param image
+ * @param categoryId
+ */
 const createProductSchema = Joi.object({
   name: name.required(),
   price: price.required(),
@@ -21,6 +29,14 @@ const createProductSchema = Joi.object({
   categoryId: categoryId.required(),
 });
 
+/**
+ * @param name
+ * @param price
+ * @param image
+ * @param description
+ * @param categoryId
+ * @description Esquema de modelo Producto para actualizar
+ */
 const updateProductSchema = Joi.object({
   name: name,
   price: price,
@@ -29,10 +45,17 @@ const updateProductSchema = Joi.object({
   categoryId
 });
 
+/**
+ * @description Esquema de modelo Producto para obtener
+ */
 const getProductSchema = Joi.object({
   id: id.required(),
 });
 
+/**
+ * @description Esquema de modelo Producto para seleccionar 
+ * @param {*}
+ */
 const queryProductSchema = Joi.object({
   limit,
   offset,
